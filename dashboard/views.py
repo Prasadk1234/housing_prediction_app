@@ -104,7 +104,7 @@ def feedback_view(request):
             # Try to send email to your Gmail inbox
             try:
                 send_mail(
-                    subject=f"🏠 Housing Predictor Feedback: {feedback_type}",
+                    subject=f"Housing Predictor Feedback: {feedback_type}",
                     message=feedback_message,
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[settings.EMAIL_HOST_USER],  # Send to your Gmail inbox
