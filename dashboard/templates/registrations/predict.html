@@ -1,0 +1,263 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>Housing Price Prediction - Housing Predictor</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .predict-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .predict-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .predict-header h1 {
+        color: #2c3e50;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .predict-header p {
+        color: #7f8c8d;
+        font-size: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ecf0f1;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    .form-group input.error {
+        border-color: #e74c3c;
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .submit-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .submit-btn:active {
+        transform: translateY(1px);
+    }
+
+    .result-container {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-container h2 {
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .result-container .price {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 1rem 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .result-container .currency {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .info-section {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-top: 2rem;
+        border-left: 4px solid #3498db;
+    }
+
+    .info-section h3 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .info-section ul {
+        margin: 0;
+        padding-left: 1.5rem;
+        color: #7f8c8d;
+    }
+
+    .info-section li {
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .predict-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+        
+        .result-container .price {
+            font-size: 2rem;
+        }
+    }
+
+    .loading {
+        display: none;
+        text-align: center;
+        margin: 1rem 0;
+    }
+
+    .loading::after {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<div class="predict-container">
+    <div class="predict-header">
+        <h1>Housing Price Predictor</h1>
+        <p>Enter property details to get an accurate price prediction</p>
+    </div>
+
+    <form method="post" action="{% url 'predict' %}">
+        {% csrf_token %}
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="size">Size in BHK</label>
+                <input type="number" id="size" name="size" min="1" max="10" required placeholder="e.g., 2">
+            </div>
+            
+            <div class="form-group">
+                <label for="total_sqft">Total Square Feet</label>
+                <input type="number" id="total_sqft" name="total_sqft" min="100" max="10000" step="0.01" required placeholder="e.g., 1200">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="bath">Number of Bathrooms</label>
+                <input type="number" id="bath" name="bath" min="1" max="10" required placeholder="e.g., 2">
+            </div>
+            
+            <div class="form-group">
+                <label for="balcony">Number of Balconies</label>
+                <input type="number" id="balcony" name="balcony" min="0" max="10" required placeholder="e.g., 1">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="all_no_of_rooms">Total Number of Rooms</label>
+            <input type="number" id="all_no_of_rooms" name="all_no_of_rooms" min="1" max="20" required placeholder="e.g., 4">
+        </div>
+
+        <button type="submit" class="submit-btn">Predict Price</button>
+    </form>
+
+    {% if result_numeric %}
+        <div class="result-container">
+            <h2>Predicted House Price</h2>
+            <div class="price">₹{{ result_numeric }}</div>
+            <h3>In Words:</h3>
+            <div class="In_words"><b>{{ result_words }}</b></div>
+            <div class="currency">Indian Rupees</div>
+        </div>
+    {% endif %}
+
+    <div class="info-section">
+        <h3>How to use this predictor:</h3>
+        <ul>
+            <li><strong>BHK:</strong> Number of bedrooms, hall, and kitchen (e.g., 2 BHK = 2 bedrooms + hall + kitchen)</li>
+            <li><strong>Total Square Feet:</strong> Total area of the property in square feet</li>
+            <li><strong>Bathrooms:</strong> Number of bathrooms in the property</li>
+            <li><strong>Balconies:</strong> Number of balconies attached to the property</li>
+            <li><strong>Total Rooms:</strong> Sum of all rooms including bedrooms, kitchen, living room, etc.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Add loading animation when form is submitted
+    document.querySelector('form').addEventListener('submit', function() {
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.textContent = 'Predicting...';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,375 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>Feedback - Housing Predictor</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .feedback-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .feedback-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .feedback-header h1 {
+        color: #2c3e50;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .feedback-header p {
+        color: #7f8c8d;
+        font-size: 1rem;
+    }
+
+    .feedback-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    .feedback-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+        border-radius: 10px;
+        color: white;
+    }
+
+    .feedback-info h3 {
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+    }
+
+    .feedback-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .feedback-item i {
+        margin-right: 1rem;
+        font-size: 1.2rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    .feedback-item span {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .form-section {
+        flex: 1;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select,
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ecf0f1;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus,
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    .form-group input.error,
+    .form-group textarea.error,
+    .form-group select.error,
+    .form-control.error {
+        border-color: #e74c3c;
+    }
+
+    .form-group textarea,
+    .form-control[type="textarea"] {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .submit-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .submit-btn:active {
+        transform: translateY(1px);
+    }
+
+    .submit-btn:disabled {
+        background-color: #bdc3c7;
+        cursor: not-allowed;
+    }
+
+    .success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        border: 1px solid #c3e6cb;
+    }
+
+    .rating-info {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-top: 1rem;
+        border-left: 4px solid #3498db;
+    }
+
+    .rating-info h4 {
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .rating-info p {
+        color: #7f8c8d;
+        font-size: 0.8rem;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .feedback-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .feedback-content {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .feedback-info {
+            order: 2;
+        }
+        
+        .form-section {
+            order: 1;
+        }
+    }
+
+    .loading {
+        display: none;
+        text-align: center;
+        margin: 1rem 0;
+    }
+
+    .loading::after {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+    }
+
+    .icon-feedback::before { content: "💬"; }
+    .icon-improve::before { content: "🚀"; }
+    .icon-accuracy::before { content: "🎯"; }
+    .icon-support::before { content: "🤝"; }
+</style>
+
+<div class="feedback-container">
+    <div class="feedback-header">
+        <h1>Share Your Feedback</h1>
+        <p>Help us improve our housing prediction system with your valuable input</p>
+    </div>
+
+    <div class="feedback-content">
+        <div class="feedback-info">
+            <h3>Why Your Feedback Matters</h3>
+            
+            <div class="feedback-item">
+                <span class="icon icon-accuracy"></span>
+                <span>Improve prediction accuracy</span>
+            </div>
+            
+            <div class="feedback-item">
+                <span class="icon icon-improve"></span>
+                <span>Enhance user experience</span>
+            </div>
+            
+            <div class="feedback-item">
+                <span class="icon icon-feedback"></span>
+                <span>Add new features you need</span>
+            </div>
+            
+            <div class="feedback-item">
+                <span class="icon icon-support"></span>
+                <span>Better support for users</span>
+            </div>
+
+            <div class="rating-info">
+                <h4>Your Rating Helps Us:</h4>
+                <p>• Understand user satisfaction</p>
+                <p>• Identify areas for improvement</p>
+                <p>• Prioritize feature development</p>
+            </div>
+        </div>
+
+        <div class="form-section">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="success-message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action="{% url 'feedback' %}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Full Name</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="error-message">{{ form.name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email Address</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="error-message">{{ form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.feedback_type.id_for_label }}">Feedback Type</label>
+                    {{ form.feedback_type }}
+                    {% if form.feedback_type.errors %}
+                        <div class="error-message">{{ form.feedback_type.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.rating.id_for_label }}">Rate Your Experience</label>
+                    {{ form.rating }}
+                    {% if form.rating.errors %}
+                        <div class="error-message">{{ form.rating.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.message.id_for_label }}">Detailed Feedback</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <div class="error-message">{{ form.message.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add loading animation when form is submitted
+    document.querySelector('form').addEventListener('submit', function() {
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.textContent = 'Submitting...';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+    });
+
+    // Auto-resize textarea
+    const textarea = document.querySelector('textarea');
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    // Form validation
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input, textarea, select');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.hasAttribute('required') && !this.value.trim()) {
+                this.classList.add('error');
+            } else {
+                this.classList.remove('error');
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.classList.contains('error') && this.value.trim()) {
+                this.classList.remove('error');
+            }
+        });
+    });
+</script>
+{% endblock %}

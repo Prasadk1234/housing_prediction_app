@@ -1,0 +1,210 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>Register - Housing Predictor</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .auth-container {
+        max-width: 500px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .auth-header h1 {
+        color: #2c3e50;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .auth-header p {
+        color: #7f8c8d;
+        font-size: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ecf0f1;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    .form-group input.error {
+        border-color: #e74c3c;
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .submit-btn:active {
+        transform: translateY(1px);
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #ecf0f1;
+    }
+
+    .auth-footer p {
+        color: #7f8c8d;
+        margin-bottom: 0.5rem;
+    }
+
+    .auth-footer a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .auth-footer a:hover {
+        color: #2980b9;
+        text-decoration: underline;
+    }
+
+    .password-requirements {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-top: 1rem;
+        border-left: 4px solid #3498db;
+    }
+
+    .password-requirements h4 {
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .password-requirements ul {
+        margin: 0;
+        padding-left: 1.5rem;
+        color: #7f8c8d;
+        font-size: 0.8rem;
+    }
+
+    .password-requirements li {
+        margin-bottom: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+        .auth-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>Create Account</h1>
+        <p>Join us to start predicting housing prices</p>
+    </div>
+
+    <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="password1">Password</label>
+            <input type="password" id="password1" name="password1" required>
+            {% if form.password1.errors %}
+                <div class="error-message">{{ form.password1.errors.0 }}</div>
+            {% endif %}
+            
+            <div class="password-requirements">
+                <h4>Password Requirements:</h4>
+                <ul>
+                    <li>At least 8 characters long</li>
+                    <li>Must contain at least one uppercase letter</li>
+                    <li>Must contain at least one lowercase letter</li>
+                    <li>Must contain at least one number</li>
+                    <li>Must contain at least one special character</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password2">Confirm Password</label>
+            <input type="password" id="password2" name="password2" required>
+            {% if form.password2.errors %}
+                <div class="error-message">{{ form.password2.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="submit-btn">Create Account</button>
+    </form>
+
+    <div class="auth-footer">
+        <p>Already have an account?</p>
+        <a href="{% url 'login' %}">Sign in here</a>
+    </div>
+</div>
+{% endblock %}

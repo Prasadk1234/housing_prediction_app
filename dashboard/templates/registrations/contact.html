@@ -1,0 +1,377 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>Contact Us - Housing Predictor</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    .contact-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .contact-header h1 {
+        color: #2c3e50;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-header p {
+        color: #7f8c8d;
+        font-size: 1rem;
+    }
+
+    .contact-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    .contact-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+        border-radius: 10px;
+        color: white;
+    }
+
+    .contact-info h3 {
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .contact-item i {
+        margin-right: 1rem;
+        font-size: 1.2rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    .contact-item span {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .form-section {
+        flex: 1;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select,
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ecf0f1;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus,
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    .form-group input.error,
+    .form-group textarea.error,
+    .form-group select.error,
+    .form-control.error {
+        border-color: #e74c3c;
+    }
+
+    .form-group textarea,
+    .form-control[type="textarea"] {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .submit-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .submit-btn:active {
+        transform: translateY(1px);
+    }
+
+    .submit-btn:disabled {
+        background-color: #bdc3c7;
+        cursor: not-allowed;
+    }
+
+    .success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        border: 1px solid #c3e6cb;
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .social-link {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-color: #3498db;
+        color: white;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .social-link:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    .social-link.facebook { background-color: #3b5998; }
+    .social-link.twitter { background-color: #1da1f2; }
+    .social-link.linkedin { background-color: #0077b5; }
+    .social-link.instagram { background-color: #e4405f; }
+
+    @media (max-width: 768px) {
+        .contact-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .contact-content {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .contact-info {
+            order: 2;
+        }
+        
+        .form-section {
+            order: 1;
+        }
+    }
+
+    .loading {
+        display: none;
+        text-align: center;
+        margin: 1rem 0;
+    }
+
+    .loading::after {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+    }
+
+    .icon-email::before { content: "📧"; }
+    .icon-phone::before { content: "📞"; }
+    .icon-location::before { content: "📍"; }
+    .icon-time::before { content: "🕒"; }
+</style>
+
+<div class="contact-container">
+    <div class="contact-header">
+        <h1>Contact Us</h1>
+        <p>Get in touch with us for any questions or feedback</p>
+    </div>
+
+    <div class="contact-content">
+        <div class="contact-info">
+            <h3>Get In Touch</h3>
+            
+            <div class="contact-item">
+                <span class="icon icon-email"></span>
+                <span>info@housingpredictor.com</span>
+            </div>
+            
+            <div class="contact-item">
+                <span class="icon icon-phone"></span>
+                <span>+91 98765 43210</span>
+            </div>
+            
+            <div class="contact-item">
+                <span class="icon icon-location"></span>
+                <span>123 Tech Park, Pune, Maharashtra, India</span>
+            </div>
+            
+            <div class="contact-item">
+                <span class="icon icon-time"></span>
+                <span>Mon - Fri: 9:00 AM - 6:00 PM</span>
+            </div>
+
+            <div class="social-links">
+                <a href="#" class="social-link facebook">f</a>
+                <a href="#" class="social-link twitter">t</a>
+                <a href="#" class="social-link linkedin">in</a>
+                <a href="#" class="social-link instagram">ig</a>
+            </div>
+        </div>
+
+        <div class="form-section">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="success-message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action="{% url 'contact' %}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Full Name</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="error-message">{{ form.name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email Address</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="error-message">{{ form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.subject.id_for_label }}">Subject</label>
+                    {{ form.subject }}
+                    {% if form.subject.errors %}
+                        <div class="error-message">{{ form.subject.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.message.id_for_label }}">Message</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <div class="error-message">{{ form.message.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add loading animation when form is submitted
+    document.querySelector('form').addEventListener('submit', function() {
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+    });
+
+    // Auto-resize textarea
+    const textarea = document.querySelector('textarea');
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    // Form validation
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input, textarea, select');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.hasAttribute('required') && !this.value.trim()) {
+                this.classList.add('error');
+            } else {
+                this.classList.remove('error');
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.classList.contains('error') && this.value.trim()) {
+                this.classList.remove('error');
+            }
+        });
+    });
+</script>
+{% endblock %}

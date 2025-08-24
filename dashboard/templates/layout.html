@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            color: #ecf0f1;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .nav-brand:hover {
+            color: #3498db;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-menu li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-menu li a:hover {
+            color: #3498db;
+            background-color: #34495e;
+        }
+        
+        .nav-menu li a.active {
+            color: #3498db;
+            background-color: #34495e;
+        }
+        
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-menu {
+                gap: 1rem;
+            }
+        }
+    </style> 
+    {% block title %}
+    
+    {% endblock  %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'predict' %}" class="nav-brand">Housing Predictor</a>
+            <ul class="nav-menu">
+                <li><a href="{% url 'predict' %}" class="active">Predict</a></li>
+                {% comment %} <li><a href="/predict"></a></li> {% endcomment %}
+                <li><a href="{% url 'register' %}">Login</a></li>
+                <li><a href="{% url 'feedback' %}">Feedback</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <div class="main-content">
+        {% block content %}
+        
+        {% endblock  %}
+    </div>
+</body>
+</html>
