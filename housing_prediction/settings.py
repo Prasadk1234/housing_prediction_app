@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--z6n8f^vv+8_6gj$#7b^=_2(vo+)v$3m0rxw5-01v892rjx6_&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -121,19 +121,19 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+# # Default primary key field type
+# # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email Configuration for Gmail SMTP
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'd8765013@gmail.com'  # Replace with your Gmail address
-EMAIL_HOST_PASSWORD = 'hkam ktdd ggtu svvz'  # Replace with your Gmail app password (16 characters)
-DEFAULT_FROM_EMAIL = 'd8765013@gmail.com'  # Replace with your Gmail address
+# # Email Configuration for Gmail SMTP
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'd8765013@gmail.com'  # Replace with your Gmail address
+# EMAIL_HOST_PASSWORD = 'hkam ktdd ggtu svvz'  # Replace with your Gmail app password (16 characters)
+# DEFAULT_FROM_EMAIL = 'd8765013@gmail.com'  # Replace with your Gmail address
 
 
-# hkam ktdd ggtu svvz
+# # hkam ktdd ggtu svvz
