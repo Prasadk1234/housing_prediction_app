@@ -81,67 +81,67 @@ def predict_view(request):
 
 
 
-def feedback_view(request):
-    if request.method == "POST":
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            feedback_type = form.cleaned_data['feedback_type']
-            rating = form.cleaned_data['rating']
-            message = form.cleaned_data['message']
+# def feedback_view(request):
+#     if request.method == "POST":
+#         form = FeedbackForm(request.POST)
+#         if form.is_valid():
+#             name = form.cleaned_data['name']
+#             email = form.cleaned_data['email']
+#             feedback_type = form.cleaned_data['feedback_type']
+#             rating = form.cleaned_data['rating']
+#             message = form.cleaned_data['message']
 
-            # Create a detailed feedback message
-            feedback_message = f"""
-                Feedback Type: {feedback_type}
-                Rating: {rating}
-                From: {name} <{email}>
+#             # Create a detailed feedback message
+#             feedback_message = f"""
+#                 Feedback Type: {feedback_type}
+#                 Rating: {rating}
+#                 From: {name} <{email}>
 
-                Feedback Message:
-                {message}
-            """
+#                 Feedback Message:
+#                 {message}
+#             """
 
-            # Try to send email to your Gmail inbox
-            try:
-                send_mail(
-                    subject=f"Housing Predictor Feedback: {feedback_type}",
-                    message=feedback_message,
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[settings.EMAIL_HOST_USER],  # Send to your Gmail inbox
-                    fail_silently=False,  # Show errors if email fails
-                )
-                email_sent = True
-            except Exception as e:
-                # Log the error but don't break the form submission
-                print(f"Email sending failed: {e}")
-                email_sent = False
+#             # Try to send email to your Gmail inbox
+#             try:
+#                 send_mail(
+#                     subject=f"Housing Predictor Feedback: {feedback_type}",
+#                     message=feedback_message,
+#                     from_email=settings.EMAIL_HOST_USER,
+#                     recipient_list=[settings.EMAIL_HOST_USER],  # Send to your Gmail inbox
+#                     fail_silently=False,  # Show errors if email fails
+#                 )
+#                 email_sent = True
+#             except Exception as e:
+#                 # Log the error but don't break the form submission
+#                 print(f"Email sending failed: {e}")
+#                 email_sent = False
 
-            # Store feedback in session for now (you can later save to database)
-            if 'feedback_submissions' not in request.session:
-                request.session['feedback_submissions'] = []
+#             # Store feedback in session for now (you can later save to database)
+#             if 'feedback_submissions' not in request.session:
+#                 request.session['feedback_submissions'] = []
             
-            feedback_data = {
-                'name': name,
-                'email': email,
-                'feedback_type': feedback_type,
-                'rating': rating,
-                'message': message,
-                'timestamp': str(datetime.now()),
-                'email_sent': email_sent
-            }
+#             feedback_data = {
+#                 'name': name,
+#                 'email': email,
+#                 'feedback_type': feedback_type,
+#                 'rating': rating,
+#                 'message': message,
+#                 'timestamp': str(datetime.now()),
+#                 'email_sent': email_sent
+#             }
             
-            request.session['feedback_submissions'].append(feedback_data)
-            request.session.modified = True
+#             request.session['feedback_submissions'].append(feedback_data)
+#             request.session.modified = True
 
-            from django.contrib import messages
-            if email_sent:
-                messages.success(request, f'Thank you {name}! Your feedback has been submitted successfully and sent via email. We appreciate your input to improve our housing prediction system.')
-            else:
-                messages.success(request, f'Thank you {name}! Your feedback has been submitted successfully. We appreciate your input to improve our housing prediction system.')
-            return redirect('feedback')
+#             from django.contrib import messages
+#             if email_sent:
+#                 messages.success(request, f'Thank you {name}! Your feedback has been submitted successfully and sent via email. We appreciate your input to improve our housing prediction system.')
+#             else:
+#                 messages.success(request, f'Thank you {name}! Your feedback has been submitted successfully. We appreciate your input to improve our housing prediction system.')
+#             return redirect('feedback')
 
-    else:
-        form = FeedbackForm()
-    return render(request, 'registrations/feedback.html', {'form': form})
+#     else:
+#         form = FeedbackForm()
+#     return render(request, 'registrations/feedback.html', {'form': form})
 
 
