@@ -45,4 +45,39 @@ cd housing_prediction_app
 ```bash
 python -m venv .venv
 .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+[attached_file:1]
 
+### 4) Create environment variables (IMPORTANT)
+Django projects commonly use environment variables for settings like `SECRET_KEY`, `DEBUG`, and allowed hosts. [web:34]
+
+#### Option A: Using a `.env` file (recommended)
+1. Create a file named `.env` in the project root (same folder as `manage.py`). [attached_file:1]
+2. Add variables like:
+```env
+# Example values (update as needed)
+DEBUG=True
+SECRET_KEY=change-this-to-a-long-random-string
+ALLOWED_HOSTS=127.0.0.1,localhost
+python manage.py runserver
+```
+[web:34]
+
+Open in browser:
+- http://127.0.0.1:8000/ [web:34]
+
+> Tip: The correct command format is `python manage.py runserver` (not `python runserver manage.py`). [web:34]
+
+## Demo / Screenshots
+A demo video is available in the project attachments (add it to the repo as `assets/demo.mp4` or upload to YouTube/Drive and link it here). [file:21]
+
+## Notes
+- This uses Django’s development server, which is intended for development/testing (not production). [web:34]
+- Model files are included as `.pkl` in the repository. [attached_file:1]
+
+## License
+No license specified. [attached_file:1]
+
+## Author
+- GitHub: https://github.com/Prasadk1234 [attached_file:1]
