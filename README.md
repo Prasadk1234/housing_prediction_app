@@ -16,7 +16,7 @@ This project contains a Django project (`manage.py`, SQLite DB) and ML assets (n
 - ML artifacts: Jupyter Notebook + Pickle models (`pune_price_model*.pkl`). [attached_file:1]
 
 ## Project Structure
-```text
+```
 housing_prediction_app/
 ├─ dashboard/                        # App (UI/views/templates)
 ├─ housing_prediction/               # Django project settings/urls/wsgi
@@ -28,7 +28,8 @@ housing_prediction_app/
 ├─ db.sqlite3
 ├─ manage.py
 └─ requirements.txt
-``` [attached_file:1]
+```
+[attached_file:1]
 
 ## Getting Started (Local Setup)
 
@@ -36,10 +37,12 @@ housing_prediction_app/
 ```bash
 git clone https://github.com/Prasadk1234/housing_prediction_app.git
 cd housing_prediction_app
-``` [attached_file:1]
+```
+[attached_file:1]
 
 ### 2) Create and activate a virtual environment (recommended)
 **Windows (PowerShell)**
 ```bash
 python -m venv .venv
 .venv\Scripts\Activate.ps1
+
