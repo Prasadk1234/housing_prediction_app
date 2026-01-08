@@ -16,6 +16,10 @@ This project contains a Django project (`manage.py`, SQLite DB) and ML assets (n
 - ML artifacts: Jupyter Notebook + Pickle models (`pune_price_model*.pkl`). [attached_file:1]
 
 ## Project Structure
+
+https://github.com/user-attachments/assets/31564f0c-f97f-4908-ae0f-9bde16540112
+
+
 ```
 housing_prediction_app/
 ├─ dashboard/                        # App (UI/views/templates)
@@ -81,3 +85,4 @@ No license specified. [attached_file:1]
 
 ## Author
 - GitHub: https://github.com/Prasadk1234 [attached_file:1]
+
