@@ -1,6 +1,7 @@
 # Housing Prediction App
 
-A Django web application that predicts housing prices (Pune dataset) using pre-trained machine learning models and stores app data in SQLite. [attached_file:1]
+A Django web application that predicts housing prices (Pune dataset) using pre-trained machine learning models and stores app data in SQLite. 
+https://github.com/user-attachments/assets/31564f0c-f97f-4908-ae0f-9bde16540112
 
 ## Overview
 This project contains a Django project (`manage.py`, SQLite DB) and ML assets (notebook, CSV dataset, and `.pkl` model files) used for price prediction. [attached_file:1]
@@ -16,9 +17,6 @@ This project contains a Django project (`manage.py`, SQLite DB) and ML assets (n
 - ML artifacts: Jupyter Notebook + Pickle models (`pune_price_model*.pkl`). [attached_file:1]
 
 ## Project Structure
-
-https://github.com/user-attachments/assets/31564f0c-f97f-4908-ae0f-9bde16540112
-
 
 ```
 housing_prediction_app/
@@ -85,4 +83,5 @@ No license specified. [attached_file:1]
 
 ## Author
 - GitHub: https://github.com/Prasadk1234 [attached_file:1]
+
 
