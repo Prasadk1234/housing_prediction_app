@@ -1,6 +1,7 @@
 # Housing Prediction App
 
-A Django web application that predicts housing prices (Pune dataset) using pre-trained machine learning models and stores app data in SQLite. 
+A Django web application that predicts housing prices (Pune dataset) using pre-trained machine learning models and stores app data in SQLite.
+
 https://github.com/user-attachments/assets/31564f0c-f97f-4908-ae0f-9bde16540112
 
 ## Overview
